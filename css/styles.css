@@ -1,0 +1,37 @@
+.red{
+    color: red;
+}
+
+.rate-unit-btn-group {
+    width: 96px;
+    height: 20px; 
+}
+
+.sws-full-width{
+    width: 100%;
+}
+
+.sws-max-half{
+    max-width:350px;
+}
+
+.form-row, .sws-pad-btm{
+    margin-bottom: 25px;
+}
+
+.inst_label.col-md-12{
+    padding-left: 0px !important;
+}
+
+.sws-tribe-editor .wp-editor-wrap{
+    margin-top: -25px;
+} 
+
+.audit-well{
+    height: 250px;
+    overflow-y: scroll;
+}
+
+#tribe_events_event_details #event_organizer, #tribe_events_event_details #event_url, #tribe_events_event_details #event_cost{
+    display: none;
+}
