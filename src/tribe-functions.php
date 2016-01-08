@@ -379,25 +379,6 @@ function save_tribe_events_data($post_id) {
     return $post_id;
 }
     
-    
-/*function swsctp_default_hidden_meta_boxes( $hidden, $screen ) {
-    // Grab the current post type
-    $post_type = $screen->post_type;
-    // If we're on a 'post'...
-    if ( $post_type === 'tribe_events' ) {
-            // Define which meta boxes we wish to hide
-            $hidden[] = array(
-                    'authordiv',
-                    'revisionsdiv',
-                    'tagsdiv'
-            );
-            // Pass our new defaults onto WordPress
-            return $hidden;
-    }
-    // If we are not on a 'post', pass the
-    // original defaults, as defined by WordPress
-    return $hidden;
-}*/
 
 function remove_page_author_field() {
 	remove_meta_box( 'authordiv' , 'tribe_events' , 'normal' ); 
