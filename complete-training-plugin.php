@@ -54,6 +54,7 @@ require_once dirname( __FILE__ ) . '/src/req-plugins.php'; //TGM Required Plugin
 require_once dirname( __FILE__ ) . '/vendors/jigsaw/jigsaw.php'; //Initialize Jigsaw Plugin for Admin Column Modifications
 include_once dirname( __FILE__ ) . '/src/tribe-functions.php'; //Tribe Events Modifications File
 include_once dirname( __FILE__ ) . '/src/user-functions.php'; //User Role Functions File
+include_once dirname( __FILE__ ) . '/src/column-mods.php'; //User Role Functions File
 
 //Register Activiation Hook
 register_activation_hook( __FILE__, 'add_roles_on_plugin_activation' );

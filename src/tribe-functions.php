@@ -17,7 +17,7 @@ function SWSCTP_tribe_functions(){
     add_meta_box(   'sws-te-type-div-details', __('Class Details'),  'class_details_metabox', 'tribe_events', 'normal', 'low');
     add_meta_box(   'sws-te-type-div-signatures', __('Instructor Signatures'),  'class_sigs_metabox', 'tribe_events', 'normal', 'low');
     add_meta_box(   'sws-te-type-div-audit', __('Audit Trail'),  'class_audit_metabox', 'tribe_events', 'normal', 'low');
-    
+    add_meta_box(   'sws-te-type-div-status', __('Course Status'),  'class_status_metabox', 'tribe_events', 'side');
     
     function class_details_metabox($post) {
         $tribe_events_type = get_post_meta($post->ID, '_tribe_events_type', TRUE);
@@ -43,6 +43,11 @@ function SWSCTP_tribe_functions(){
         $tribe_events_inst1 = get_post_meta($post->ID, '_tribe_events_inst1', TRUE);
         $tribe_events_inst2 = get_post_meta($post->ID, '_tribe_events_inst2', TRUE);
         $tribe_events_inst3 = get_post_meta($post->ID, '_tribe_events_inst3', TRUE);
+        
+        $tribe_events_inst1_stat = get_post_meta($post->ID, '_tribe_events_inst1_stat', TRUE);
+        $tribe_events_inst2_stat = get_post_meta($post->ID, '_tribe_events_inst2_stat', TRUE);
+        $tribe_events_inst3_stat = get_post_meta($post->ID, '_tribe_events_inst3_stat', TRUE);
+                        
         $tribe_events_inst_rate_unit = get_post_meta($post->ID, '_tribe_events_inst_rate_unit', TRUE);
         $tribe_events_inst_rate = get_post_meta($post->ID, '_tribe_events_inst_rate', TRUE);
         $tribe_events_inst_notes = get_post_meta($post->ID, '_tribe_events_inst_notes', TRUE);
@@ -339,6 +344,23 @@ function SWSCTP_tribe_functions(){
         <?php
     }
     
+    function class_status_metabox($post) {
+        $tribe_events_type = get_post_meta($post->ID, '_tribe_events_type', TRUE);
+        if (!$tribe_events_type) $tribe_events_type = 'attachment';
+        
+        
+        $tribe_events_status = get_post_meta($post->ID, '_tribe_events_status', TRUE);
+        ?>
+        <div class="bootstrap-wrapper">
+            <select id="tribe_events_status" name="tribe_events_status" class="sws_tribe_events_select sws-full-width">
+                <option value="scheduled" <?php if($tribe_events_status == "scheduled" || !$tribe_events_status){echo "selected='selected'";} ?>>Scheduled</option>
+                <option value="cancelled" <?php if($tribe_events_status == "cancelled"){echo "selected='selected'";} ?>>Cancelled</option>
+                <option value="completed" <?php if($tribe_events_status == "complted"){echo "selected='selected'";} ?>>Completed</option>
+            </select>
+        </div>
+        <?php
+    }
+    
     
     
  
@@ -369,6 +391,17 @@ function save_tribe_events_data($post_id) {
         update_post_meta($post_id, '_tribe_events_inst1', esc_attr($_POST['tribe_events_inst1']) );
         update_post_meta($post_id, '_tribe_events_inst2', esc_attr($_POST['tribe_events_inst2']) );
         update_post_meta($post_id, '_tribe_events_inst3', esc_attr($_POST['tribe_events_inst3']) );
+        
+        $tribe_events_inst1_stat = get_post_meta($post_id, '_tribe_events_inst1_stat', TRUE);
+        $tribe_events_inst2_stat = get_post_meta($post_id, '_tribe_events_inst2_stat', TRUE);
+        $tribe_events_inst3_stat = get_post_meta($post_id, '_tribe_events_inst3_stat', TRUE);
+        
+        if((!$tribe_events_inst1_stat || $tribe_events_inst1_stat == "") && esc_attr($_POST['tribe_events_inst1']) != "" ){update_post_meta($post_id, '_tribe_events_inst1_stat', "pending");}
+        if((!$tribe_events_inst2_stat || $tribe_events_inst2_stat == "") && esc_attr($_POST['tribe_events_inst2']) != "" ){update_post_meta($post_id, '_tribe_events_inst2_stat', "pending");}
+        if((!$tribe_events_inst3_stat || $tribe_events_inst3_stat == "") && esc_attr($_POST['tribe_events_inst3']) != "" ){update_post_meta($post_id, '_tribe_events_inst3_stat', "pending");}
+        
+        update_post_meta($post_id, '_tribe_events_status', esc_attr($_POST['tribe_events_status']) );
+        
         update_post_meta($post_id, '_tribe_events_inst_rate', esc_attr($_POST['tribe_events_inst_rate']) );
         update_post_meta($post_id, '_tribe_events_inst_rate_unit', esc_attr($_POST['tribe_events_inst_rate_unit']) );
         update_post_meta($post_id, '_tribe_events_inst_notes', $_POST['tribe_events_inst_notes'] );
