@@ -35,3 +35,15 @@
 #tribe_events_event_details #event_organizer, #tribe_events_event_details #event_url, #tribe_events_event_details #event_cost{
     display: none;
 }
+
+.tribe_inst.pending{
+    color: darkorange;
+}
+
+.tribe_inst.accepted{
+    color: darkgreen;
+}
+
+.tribe_inst.declined{
+    color: crimson;
+}
