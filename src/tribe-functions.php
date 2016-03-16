@@ -40,23 +40,44 @@ function SWSCTP_tribe_functions(){
             'textarea_rows' => 10
         );
         
+        //Get Saved Instructors
         $tribe_events_inst1 = get_post_meta($post->ID, '_tribe_events_inst1', TRUE);
         $tribe_events_inst2 = get_post_meta($post->ID, '_tribe_events_inst2', TRUE);
         $tribe_events_inst3 = get_post_meta($post->ID, '_tribe_events_inst3', TRUE);
         
+        //Get Saved Instructor Statuses
         $tribe_events_inst1_stat = get_post_meta($post->ID, '_tribe_events_inst1_stat', TRUE);
         $tribe_events_inst2_stat = get_post_meta($post->ID, '_tribe_events_inst2_stat', TRUE);
         $tribe_events_inst3_stat = get_post_meta($post->ID, '_tribe_events_inst3_stat', TRUE);
+        
+        //If Status DNE || is blank, set status to "pending"
+        if(!$tribe_events_inst1_stat || $tribe_events_inst1_stat == ""){ $tribe_events_inst1_stat = "pending"; }
+        if(!$tribe_events_inst2_stat || $tribe_events_inst2_stat == ""){ $tribe_events_inst2_stat = "pending"; }
+        if(!$tribe_events_inst3_stat || $tribe_events_inst3_stat == ""){ $tribe_events_inst3_stat = "pending"; }
+        
+        //If Instructor DNE || is blank, set status to blank ---> No instructor means no status
+        if(!$tribe_events_inst1 || $tribe_events_inst1 == ""){ $tribe_events_inst1_stat = ""; }
+        if(!$tribe_events_inst2 || $tribe_events_inst2 == ""){ $tribe_events_inst2_stat = ""; }
+        if(!$tribe_events_inst3 || $tribe_events_inst3 == ""){ $tribe_events_inst3_stat = ""; }
                         
+        //Get all other saved class details metabox items
         $tribe_events_inst_rate_unit = get_post_meta($post->ID, '_tribe_events_inst_rate_unit', TRUE);
         $tribe_events_inst_rate = get_post_meta($post->ID, '_tribe_events_inst_rate', TRUE);
         $tribe_events_inst_notes = get_post_meta($post->ID, '_tribe_events_inst_notes', TRUE);
         $tribe_events_equip_needed = get_post_meta($post->ID, '_tribe_events_equip_needed', TRUE);
-        if (!$tribe_events_inst_rate_unit) $tribe_events_inst_rate_unit = 'class';    
+        if (!$tribe_events_inst_rate_unit){ $tribe_events_inst_rate_unit = 'class'; }   
         ?>
+        <!-- Class Details Metabox -->
         <div class="bootstrap-wrapper">
             <!--<form>-->
+                <!-- Hidden Inputs (nonce, instructor statuses, original instructors) -->
                 <input type="hidden" name="tribe_events_type_noncename" id="tribe_events_type_noncename" value="<?php echo wp_create_nonce( 'tribe_events_type'.$post->ID );?>" />
+                <input type="hidden" name="tribe_events_inst1_stat" id="tribe_events_inst1_stat" value="<?php echo $tribe_events_inst1_stat; ?>" />
+                <input type="hidden" name="tribe_events_inst2_stat" id="tribe_events_inst2_stat" value="<?php echo $tribe_events_inst2_stat; ?>" />
+                <input type="hidden" name="tribe_events_inst3_stat" id="tribe_events_inst3_stat" value="<?php echo $tribe_events_inst3_stat; ?>" />
+                <input type="hidden" name="tribe_events_inst1_orig" id="tribe_events_inst1_orig" value="<?php echo $tribe_events_inst1; ?>" />
+                <input type="hidden" name="tribe_events_inst2_orig" id="tribe_events_inst2_orig" value="<?php echo $tribe_events_inst2; ?>" />
+                <input type="hidden" name="tribe_events_inst3_orig" id="tribe_events_inst3_orig" value="<?php echo $tribe_events_inst3; ?>" />
                 <div class="form-row">
                     <div id="tribe_events_inst1_cont" class="col-md-4 sws-pad-btm">
                         <div class="form-group">
@@ -355,7 +376,7 @@ function SWSCTP_tribe_functions(){
             <select id="tribe_events_status" name="tribe_events_status" class="sws_tribe_events_select sws-full-width">
                 <option value="scheduled" <?php if($tribe_events_status == "scheduled" || !$tribe_events_status){echo "selected='selected'";} ?>>Scheduled</option>
                 <option value="cancelled" <?php if($tribe_events_status == "cancelled"){echo "selected='selected'";} ?>>Cancelled</option>
-                <option value="completed" <?php if($tribe_events_status == "complted"){echo "selected='selected'";} ?>>Completed</option>
+                <option value="completed" <?php if($tribe_events_status == "completed"){echo "selected='selected'";} ?>>Completed</option>
             </select>
         </div>
         <?php
@@ -368,40 +389,72 @@ function SWSCTP_tribe_functions(){
 }
 
 
-function save_tribe_events_data($post_id) {  
+function save_tribe_events_data($post_id) {
+    
     error_log("save_tribe_events_data");
     // verify this came from the our screen and with proper authorization.
-    if ( !wp_verify_nonce( $_POST['tribe_events_type_noncename'], 'tribe_events_type'.$post_id )) {
-        return $post_id;
-    }
+    if ( !wp_verify_nonce( $_POST['tribe_events_type_noncename'], 'tribe_events_type'.$post_id )) {return $post_id;}
 
     // verify if this is an auto save routine. If it is our form has not been submitted, so we dont want to do anything
-    if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
-    return $post_id;
+    if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ){return $post_id;}
 
     // Check permissions
-    if ( !current_user_can( 'edit_post', $post_id ) )
-        return $post_id;
+    if ( !current_user_can( 'edit_post', $post_id ) ){return $post_id;}
 
 
     // OK, we're authenticated: we need to find and save the data   
     $post = get_post($post_id);
     if ($post->post_type == 'tribe_events') { 
         error_log("tribe-events post save");
+        
+        //Update Instructors
         update_post_meta($post_id, '_tribe_events_inst1', esc_attr($_POST['tribe_events_inst1']) );
         update_post_meta($post_id, '_tribe_events_inst2', esc_attr($_POST['tribe_events_inst2']) );
         update_post_meta($post_id, '_tribe_events_inst3', esc_attr($_POST['tribe_events_inst3']) );
+       
+        /**Instructor Status Updates**/
+        //If (Status DNE || is blank) && Instructor is defined, updated instructor status to "pending"
+        if((!$_POST['tribe_events_inst1_stat'] || $_POST['tribe_events_inst1_stat'] == "") && esc_attr($_POST['tribe_events_inst1']) != "" ){update_post_meta($post_id, '_tribe_events_inst1_stat', "pending");}
+        if((!$_POST['tribe_events_inst2_stat'] || $_POST['tribe_events_inst2_stat'] == "") && esc_attr($_POST['tribe_events_inst2']) != "" ){update_post_meta($post_id, '_tribe_events_inst2_stat', "pending");}
+        if((!$_POST['tribe_events_inst3_stat'] || $_POST['tribe_events_inst3_stat'] == "") && esc_attr($_POST['tribe_events_inst3']) != "" ){update_post_meta($post_id, '_tribe_events_inst3_stat', "pending");}
         
-        $tribe_events_inst1_stat = get_post_meta($post_id, '_tribe_events_inst1_stat', TRUE);
-        $tribe_events_inst2_stat = get_post_meta($post_id, '_tribe_events_inst2_stat', TRUE);
-        $tribe_events_inst3_stat = get_post_meta($post_id, '_tribe_events_inst3_stat', TRUE);
+        //If Original Instructor !== Instructor input, update instructor status to pending and clear instructor signature fields
+        if(esc_attr($_POST['tribe_events_inst1_orig']) !== esc_attr($_POST['tribe_events_inst1'])){
+            update_post_meta($post_id, '_tribe_events_inst1_stat', "pending");
+            update_post_meta($post_id, '_tribe_events_inst1_sig', "");
+            update_post_meta($post_id, '_tribe_events_inst1_sig_date', "");
+            update_post_meta($post_id, '_tribe_events_inst1_sig_ip', "");
+            update_post_meta($post_id, '_tribe_events_inst1_decline', "");
+            update_post_meta($post_id, '_tribe_events_inst1_decline_rsn', "");
+        }
+        if(esc_attr($_POST['tribe_events_inst2_orig']) !== esc_attr($_POST['tribe_events_inst2'])){
+            update_post_meta($post_id, '_tribe_events_inst2_stat', "pending");
+            update_post_meta($post_id, '_tribe_events_inst2_sig', "");
+            update_post_meta($post_id, '_tribe_events_inst2_sig_date', "");
+            update_post_meta($post_id, '_tribe_events_inst2_sig_ip', "");
+            update_post_meta($post_id, '_tribe_events_inst2_decline', "");
+            update_post_meta($post_id, '_tribe_events_inst2_decline_rsn', "");
+        }
+        if(esc_attr($_POST['tribe_events_inst3_orig']) !== esc_attr($_POST['tribe_events_inst3'])){
+            update_post_meta($post_id, '_tribe_events_inst3_stat', "pending");
+            update_post_meta($post_id, '_tribe_events_inst3_sig', "");
+            update_post_meta($post_id, '_tribe_events_inst3_sig_date', "");
+            update_post_meta($post_id, '_tribe_events_inst3_sig_ip', "");
+            update_post_meta($post_id, '_tribe_events_inst3_decline', "");
+            update_post_meta($post_id, '_tribe_events_inst3_decline_rsn', "");
+        }
         
-        if((!$tribe_events_inst1_stat || $tribe_events_inst1_stat == "") && esc_attr($_POST['tribe_events_inst1']) != "" ){update_post_meta($post_id, '_tribe_events_inst1_stat', "pending");}
-        if((!$tribe_events_inst2_stat || $tribe_events_inst2_stat == "") && esc_attr($_POST['tribe_events_inst2']) != "" ){update_post_meta($post_id, '_tribe_events_inst2_stat', "pending");}
-        if((!$tribe_events_inst3_stat || $tribe_events_inst3_stat == "") && esc_attr($_POST['tribe_events_inst3']) != "" ){update_post_meta($post_id, '_tribe_events_inst3_stat', "pending");}
+        //If Instructor is blank, update instructor status to blank
+        if(esc_attr($_POST['tribe_events_inst1']) == ""){update_post_meta($post_id, '_tribe_events_inst1_stat', "");}
+        if(esc_attr($_POST['tribe_events_inst2']) == ""){update_post_meta($post_id, '_tribe_events_inst2_stat', "");}
+        if(esc_attr($_POST['tribe_events_inst3']) == ""){update_post_meta($post_id, '_tribe_events_inst3_stat', "");}
+        /**End Instructor Status Updates**/
         
+        
+        //Update Event Status
         update_post_meta($post_id, '_tribe_events_status', esc_attr($_POST['tribe_events_status']) );
         
+        //Update Other Items
         update_post_meta($post_id, '_tribe_events_inst_rate', esc_attr($_POST['tribe_events_inst_rate']) );
         update_post_meta($post_id, '_tribe_events_inst_rate_unit', esc_attr($_POST['tribe_events_inst_rate_unit']) );
         update_post_meta($post_id, '_tribe_events_inst_notes', $_POST['tribe_events_inst_notes'] );
@@ -417,5 +470,65 @@ function remove_page_author_field() {
 	remove_meta_box( 'authordiv' , 'tribe_events' , 'normal' ); 
 }
 
+//Copies CTP Modified The Events Calendar Email Template to Theme Override Directory
+//Checks file for Version Number to ensure file is up-to-date
+function include_tribe_reg_email(){
+    $filename = SWSCTP_THEME_DIR . '/tribe-events/tickets/email.php';
+    if(file_exists($filename)){
+        $old_contents = file_get_contents($filename);
+        
+        if(!strpos($old_contents, SWSCTP_TRIBE_FILE_VERS)){
+            $new_contents = file_get_contents(SWSCTP_PLUGIN_DIR . '/src/emails/reg-email.php');
+            $put_file = file_put_contents($filename, $new_contents);
+            
+            return $put_file;
+        }
+        
+        else{
+            return "Up-To-Date";
+        }
+    }
+    
+    else{
+        if(!file_exists(SWSCTP_THEME_DIR.'/tribe-events/')) mkdir(SWSCTP_THEME_DIR. '/tribe-events/', 0755);
+        if(!file_exists(SWSCTP_THEME_DIR.'/tribe-events/tickets/')) mkdir(SWSCTP_THEME_DIR . '/tribe-events/tickets/', 0755);
+        
+        touch($filename);
+        $new_contents = file_get_contents(SWSCTP_PLUGIN_DIR . '/src/emails/reg-email.php');
+        $put_file = file_put_contents($filename, $new_contents);
+            
+        return $put_file;
+    }
+}
+
+//Copies CTP Modified The Events Calendar Single Event Template to Theme Override Directory
+//Checks file for Version Number to ensure file is up-to-date
+function include_tribe_single_event(){
+    $filename = SWSCTP_THEME_DIR . '/tribe-events/single-event.php';
+    if(file_exists($filename)){
+        $old_contents = file_get_contents($filename);
+        
+        if(!strpos($old_contents, SWSCTP_TRIBE_FILE_VERS)){
+            $new_contents = file_get_contents(SWSCTP_PLUGIN_DIR . '/src/templates/single-event.php');
+            $put_file = file_put_contents($filename, $new_contents);
+            
+            return $put_file;
+        }
+        
+        else{
+            return "Up-To-Date";
+        }
+    }
+    
+    else{
+        if(!file_exists(SWSCTP_THEME_DIR.'/tribe-events/')) mkdir(SWSCTP_THEME_DIR. '/tribe-events/', 0755);
+        
+        touch($filename);
+        $new_contents = file_get_contents(SWSCTP_PLUGIN_DIR . '/src/templates/single-event.php');
+        $put_file = file_put_contents($filename, $new_contents);
+            
+        return $put_file;
+    }
+}
 
 ?>

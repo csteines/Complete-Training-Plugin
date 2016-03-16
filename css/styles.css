@@ -47,3 +47,49 @@
 .tribe_inst.declined{
     color: crimson;
 }
+
+.tribe_inst .pending{
+    color: darkorange;
+}
+
+.tribe_inst .accepted{
+    color: darkgreen;
+}
+
+.tribe_inst .declined{
+    color: crimson;
+}
+
+.swsctp-options-radio{
+    margin:5px 0px 5px 0px;
+}
+
+.swsctp-options-inline-number input[type="number"]{
+    width: 50px;
+    text-align: right;
+}
+
+#tribe-events-inst-meta-header, #tribe-events-inst-meta-bottom {
+    width: 100% !important;
+}
+
+#tribe-events-inst-meta-left, #tribe-events-inst-meta-right {
+    width: 50% !important;
+}
+
+#tribe-events-inst-meta-bottom dl{
+    border-top: 1px lightgray solid;
+    padding-top: 25px;
+}
+
+.instructor-view .tribe_events form{
+    display:none;
+}
+
+.tribe-venue {
+    margin-bottom: 0px;
+}
+
+#inst-buttons{
+    margin-top: 10px;
+}

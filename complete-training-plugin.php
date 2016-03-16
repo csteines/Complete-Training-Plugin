@@ -16,6 +16,9 @@ $version = '0.0.1';
 if (!defined('SWSCTP_THEME_DIR'))
     define('SWSCTP_THEME_DIR', ABSPATH . 'wp-content/themes/' . get_template());
 
+if (!defined('SWSCTP_THEME_URI'))
+    define('SWSCTP_THEME_URI', get_template_directory_uri());
+
 //Plugin Name
 if (!defined('SWSCTP_PLUGIN_NAME'))
     define('SWSCTP_PLUGIN_NAME', trim(dirname(plugin_basename(__FILE__)), '/'));
@@ -36,6 +39,9 @@ if (!defined('SWSCTP_VERSION_KEY'))
 if (!defined('SWSCTP_VERSION_NUM'))
     define('SWSCTP_VERSION_NUM', $version);
 
+if (!defined('SWSCTP_TRIBE_FILE_VERS'))
+    define('SWSCTP_TRIBE_FILE_VERS', 'SWSCTP_VERSION = '.$version);
+
 //Add version number to DB for future use... If it exists, nothing executes.
 add_option(SWSCTP_VERSION_KEY, SWSCTP_VERSION_NUM);
 
@@ -55,6 +61,10 @@ require_once dirname( __FILE__ ) . '/vendors/jigsaw/jigsaw.php'; //Initialize Ji
 include_once dirname( __FILE__ ) . '/src/tribe-functions.php'; //Tribe Events Modifications File
 include_once dirname( __FILE__ ) . '/src/user-functions.php'; //User Role Functions File
 include_once dirname( __FILE__ ) . '/src/column-mods.php'; //User Role Functions File
+include_once dirname( __FILE__ ) . '/src/shortcode-functions.php'; //Shortcode Definitions File
+include_once dirname( __FILE__ ) . '/settings/settings.php'; //Settings & Options Functions File
+
+add_query_arg('swsctp');
 
 //Register Activiation Hook
 register_activation_hook( __FILE__, 'add_roles_on_plugin_activation' );
@@ -68,8 +78,16 @@ add_action( 'after_setup_theme', 'sws_remove_admin_bar' ); //Remove admin bar to
 add_action( 'save_post', 'save_tribe_events_data' ); //Save Tribe Events Additional Meta-Data
 add_action( 'admin_menu' , 'remove_page_author_field' );
 add_action( 'plugins_loaded', 'swsctp_class_column_mod'); //Runs Jigsaw Column Modifications to Tribe_Events Post Type Admin Page
-//
-//
+add_action( 'plugins_loaded', 'include_tribe_reg_email'); //Ensures Tribe Events Registration email template override file has been placed in theme directory
+add_action( 'plugins_loaded', 'include_tribe_single_event'); //Ensure Tribe Events Single Event template override file has been placed in theme directory
+add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' ); //Enqueue additional styles and scripts as needed
+
+
+function wpdocs_theme_name_scripts() {
+    wp_enqueue_style( 'swsctp-styles', plugins_url('/complete-training-plugin/css/styles.css'), '0.0.1');
+    //wp_enqueue_script( 'script-name', get_template_directory_uri() . '/js/example.js', array(), '1.0.0', true );
+}
+
 //Remove Actions
 //Intended to remove admin notice for installing woothemes updater.
 remove_action( 'admin_notices', 'woothemes_updater_notice' );
@@ -80,6 +98,13 @@ function sws_admin_css(){
     wp_enqueue_script('admin_js_bootstrap_hack', plugins_url('/complete-training-plugin/js/bootstrap-hack.js'), false, '1.0.0', false);
     wp_enqueue_script('admin_js_bootstrap', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js', false, '3.3.4', false);
     
+}
+
+//Register Query Vars and Rewrite Tags
+add_filter('query_vars', 'swsctp_add_my_var');
+function swsctp_add_my_var($public_query_vars) {
+	$public_query_vars[] = 'inst_view';
+	return $public_query_vars;
 }
 
 
