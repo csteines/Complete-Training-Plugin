@@ -20,6 +20,10 @@ $event_id = get_the_ID();
 $inst_view = get_query_var('inst_view');
 error_log("Instructor View: ".$inst_view);
 
+if($inst_view){
+    ?><!--Instructor Modals--><?php
+    do_action('swsctp_add_instructor_modals', $event_id);
+}
 //If Instructor View and user is NOT logged in, provide login form
 if($inst_view && !(is_user_logged_in())){      ?>
     <div id="tribe-events-content" class="tribe-events-single vevent hentry">
@@ -156,7 +160,7 @@ else {
                         <?php } 
                         if($tribe_events_inst3){ ?>
                         <div class="tribe_inst">
-                            <?php echo $userdata3->first_name ." ". $userdata3->last_name;?> - <span class="<?php echo $tribe_events_inst1_stat;?>"><?php echo $inst3stat; ?></span>
+                            <?php echo $userdata3->first_name ." ". $userdata3->last_name;?> - <span class="<?php echo $tribe_events_inst3_stat;?>"><?php echo $inst3stat; ?></span>
                         </div>
                         <?php }
                         if($inst_sign_needed){ ?>

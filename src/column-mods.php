@@ -31,7 +31,7 @@ function swsctp_class_column_mod(){
                                 echo( "<br><span class='tribe_inst $tribe_events_inst2_stat'>" . $user_data2->last_name . ", " . $user_data2->first_name . "</span>" );
                                 
                                 if($user_data3->last_name !== null){
-                                    echo( "<br><span class='tribe_inst $tribe_events_inst1_stat'>" . $user_data3->last_name . ", " . $user_data3->first_name . "</span>" );
+                                    echo( "<br><span class='tribe_inst $tribe_events_inst3_stat'>" . $user_data3->last_name . ", " . $user_data3->first_name . "</span>" );
                                 }
                             }
                         }

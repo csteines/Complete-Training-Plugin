@@ -1,0 +1,628 @@
+.modal-open {
+  overflow: hidden;
+}
+.modal {
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+.modal.fade .modal-dialog {
+  -webkit-transform: translate(0, -25%);
+  -ms-transform: translate(0, -25%);
+  -o-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -o-transition: -o-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+.modal-content {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #999999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+  outline: 0;
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000000;
+}
+.modal-backdrop.fade {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.modal-backdrop.in {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+  min-height: 16.42857143px;
+}
+.modal-header .close {
+  margin-top: -2px;
+}
+.modal-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+.modal-body {
+  position: relative;
+  padding: 15px;
+}
+.modal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+.modal-footer .btn + .btn {
+  margin-left: 5px;
+  margin-bottom: 0;
+}
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+.modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+.modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+  .modal-sm {
+    width: 300px;
+  }
+}
+@media (min-width: 992px) {
+  .modal-lg {
+    width: 900px;
+  }
+}
+.clearfix:before,
+.clearfix:after,
+.modal-footer:before,
+.modal-footer:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after,
+.modal-footer:after {
+  clear: both;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.pull-right {
+  float: right !important;
+}
+.pull-left {
+  float: left !important;
+}
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.invisible {
+  visibility: hidden;
+}
+.text-hide {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.hidden {
+  display: none !important;
+}
+.affix {
+  position: fixed;
+}
+.modal-content form{
+	margin-bottom:0px;
+}
+
+.list
+{
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+ 
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    
+    margin-left:0px !important;
+    overflow: hidden; /* just clearing floats */
+}
+
+.list__item
+{
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    
+    width: 33.33333%; /* 3 items per row */
+    float: left;
+    margin-left:0px !important;
+}
+
+.list__item #buttons{
+	/*position:absolute;
+	bottom:10px;*/
+	width:100%;
+}
+
+.list__item__internal{
+	/*display:block;
+	position:relative;*/
+	margin:0px 5px 0px 5px;
+    background-color: #EDEDED;
+    padding-top:15px;
+    padding-bottom:15px !important;
+}
+
+.list__item__internal .desc{
+	margin: 0px 3px 0px 3px;
+}
+
+	@media only screen and (min-width: 768px) and (max-width: 989px) {
+		.list__item{
+			width: 50%;
+		}
+	}
+	
+	@media only screen and (max-width: 767px) {
+		.list__item{
+			width: 100%;
+		}
+	}
+	
+.wpuf-profile legend{
+    border:none !important;
+    font-weight: 900;
+    font-size: 18px;
+}
+
+table.wpuf-table, table.wpuf-table td{
+    border:none !important;
+}
+
+table.wpuf-table tbody{
+    border: none !important;
+}
+
+.wpuf-profile tr th:first-child{
+    border-left-width: 2px;
+    width: 214px;
+    border-right: 0px;
+    border-bottom: 0px;
+}
+
+.wpuf-profile #pass-strength-result{
+    margin: 0px 5px 5px 1px;
+}
+
+.wpuf-profile input[type="submit"]{
+    color:white !important;
+}
+
+ .wpuf-table tr th label{
+     vertical-align:top !important;
+ }
+ 
+ .wpuf-table tr{
+     vertical-align:inherit !important;
+ }
+ 
+ label{
+     display: table-cell;
+     vertical-align:-webkit-baseline-middle;
+ }
+ 
+ #user_login1, #pwd2, .wpuf-profile #phone{
+     margin-bottom: 0px;
+ }
+ 
+ .wpuf-profile legend{
+     margin-bottom:10px;
+ }
+
+.sub-menu, .sub-menu li, .sub-menu li a{
+    background-color: #b32020 !important;
+    text-transform: uppercase;
+    font-weight:700;
+    text-align:center !important;
+}
+
+ .sub-menu li, .sub-menu li a{
+    width:150px !important;
+ }
+ 
+ .sub-menu{
+     width:186px !important;
+ }
+ 
+ #swr-pass-strength-result{
+     width:220px;
+     border: 1px solid #660f0f;
+     border-radius: 3px;
+     text-align:center;
+     text-transform:uppercase;
+     font-weight:700;
+ }
+ 
+ .bad{
+     background-color:#ff6666;
+ }
+ 
+ .good{
+     background-color:#F8FF6E;
+ }
+ 
+ .strong{
+     background-color:#63DB67;
+ }
+ 
+ .short{
+     background-color: #ff0000;
+ }
+ 
+ .wpuf-profile #display-name{
+     width:220px !important;
+     border-radius: 3px !important;
+ }
+ 
+ .post-type-tribe_events #media, .post-type-tribe_events #wpuf-select-form{
+     display: none;
+ }
+ 
+ #tribe-events-pg-template .tribe-events-content ul {
+     list-style:none !important;
+     /*margin-left:20px;*/
+ }
+ 
+ #tribe-events-pg-template .tribe-events-content ul li {
+     margin-left:5px;
+     margin-bottom:0px !important;
+ }
+
+ 
+ .class_in_content{
+     /*margin-left:20px;*/
+ }
+
+.highlight { background-color: #ffe278; }
+
+.delimiter, .country-name {display:none;}
+
+/*.locality:before{
+  content: "\A";
+  white-space: pre;
+}*/
+
+.locality:after{ content: ", "; }
+  
+.class_list_table td, .class_list_table th {
+  text-align:center;
+  vertical-align:middle;
+}
+
+.tribe-bar-submit {
+  margin-top:15px;
+}
+
+.single_event_gmap_link{
+    font-style: italic;
+}
+
+.duration{
+  display:inline;
+}
+
+.class_equipment {
+  border-top: dotted 1px grey;
+}
+
+.class_equipment_content ul li {
+  margin-left:15px !important;
+  margin-bottom:0px !important;
+  list-style: none !important;
+}
+
+.class_equipment_content ul li:before{
+  content:"\00bb  ";
+  white-space:pre;
+} 
+
+#inst_view_button, #inst_decline_button{
+  margin-top:10px;
+}
+
+.event-meta-cost:before{
+  content: "$";
+}
+
+#AcceptanceForm .modal-footer{
+  text-align:left;
+}
+
+#AcceptanceForm .modal-footer #ack{
+  margin-bottom: 10px;
+}
+
+#AcceptanceForm .modal-footer #ack input {
+  margin-left:0px;
+  margin-right: 10px;
+}
+
+#AcceptanceForm .modal-footer #sig input{
+  margin-top: 10px;
+}
+
+#AcceptanceForm .contract::-webkit-scrollbar {
+    width: .5em;
+    border-radius:5px;
+}
+ 
+#AcceptanceForm .contract::-webkit-scrollbar-track {
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+}
+
+#AcceptanceForm .contract::-webkit-scrollbar-thumb {
+  background-color: #872e2e;
+  border-radius:5px;
+}
+
+body.modal-open{
+   position:fixed;
+   width: 100%;
+}
+
+#AcceptanceForm .modal-content{
+  min-height: 340px;
+}
+
+.inputError, .inputError:focus{
+  -webkit-box-shadow:0 0 6px #ff0000;
+  -moz-box-shadow:0 0 5px #ff0000;
+  box-shadow:0 0 5px #ff0000;
+  outline: none;
+}
+
+.modal-footer .tribe-events-button{
+  color: #ffffff;
+  background-color: #872e2e;
+  border-color: #872e2e;
+}
+
+.modal-footer .tribe-events-button:hover{
+  color: #ffffff;
+  background-color: #AB7272;
+  border-color: #AB7272;
+}
+
+#tribe-events-footer{
+    border-top: 0px !important;
+}
+
+#tribe_events_event_details #event_organizer, #tribe_events_event_details #event_url, #tribe_events_event_details #event_cost{
+    display: none;
+}
+
+.tribe_events form table, .tribe_events form tr, .tribe_events form td, .woocommerce-cart form td, .woocommerce-cart form th, .woocommerce-checkout-review-order-table th, .woocommerce-checkout-review-order-table td,
+.order_details th, .order_details td, .customer_details th, .customer_details td, .my_account_orders th, .my_account_orders td{
+    border: 0px;
+    border-left: 0px !important;
+}
+
+.tkt_radio{
+    height: 18px;
+    width: 18px;
+    margin-top: 0px;
+    vertical-align: middle;
+}
+
+#order_review_heading{
+    margin-top:20px;
+}
+
+.woocommerce a.button.alt, .woocommerce #place_order{
+    background-color: #872e2e !important;
+}
+
+.woocommerce a.button.alt:hover, .woocommerce #place_order:hover{
+    background-color: #A06D6D !important;
+}
+
+.payment_methods input{
+    vertical-align: middle;
+}
+
+.payment_methods label{
+    vertical-align: middle;
+    display: inline;
+}
+
+.woocommerce .woocommerce-message{
+    border-top-color: #1CAE1B !important;
+    background-color: #e0e0e0 !important;
+}
+
+.woocommerce .woocommerce-message:before {
+    content: "\e015";
+    color: #1CAE1B !important;
+}
+
+.woocommerce .woocommerce-info:before {
+    color: #1E43BE !important;
+}
+
+.woocommerce .woocommerce-info {
+    border-top-color: #1E43BE !important;
+    background-color: #e0e0e0 !important;
+}
+
+.woocommerce .woocommerce-error {
+    border-top-color: #FF000B !important;
+    background-color: #e0e0e0 !important;
+}
+
+.woocommerce .woocommerce-error:before {
+    color: #FF000B !important;
+}
+
+.event-meta-address .locality::before{
+    display: none;
+}
+
+.product-thumbnail{
+    display: none;
+    width: 0px;
+    height: 0px;
+    opacity:0;
+    visibility: collapse;
+}
+
+input[name="update_cart"]{
+    display: none;
+}
+
+table.shop_table.cart th, table.shop_table.cart td {
+    text-align: center;
+}
+
+.cart_totals table th{
+    padding-right:10px !important;
+}
+
+.shop_table.cart .coupon input{
+    width:48% !important;
+}
+
+/*.shop_table.cart .coupon{
+    width:392px;
+}*/
+
+form.woocommerce-checkout input, .woocommerce-checkout textarea{
+    background-color: #FFFFFF !important;
+    border-color: #BDBDBD !important;
+}
+
+form.woocommerce-checkout input[type='submit'] {
+    background-color: #872e2e !important;
+    color: #ffffff !important;
+}
+
+form.woocommerce-checkout input:focus, .woocommerce-checkout textarea:focus{
+    background-color: #FFFFFF !important;
+    border-color: #BDBDBD !important;
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,.5) !important;
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,.5) !important;
+    box-shadow:  0 0 5px rgba(0,0,0,.5) !important;
+}
+
+form.woocommerce form .form-row.woocommerce-validated .select2-container, .woocommerce form .form-row.woocommerce-validated input.input-text, .woocommerce form .form-row.woocommerce-validated select {
+    border-color: #69bf29 !important;
+}
+
+form.woocommerce-checkout .state_select, .woocommerce-checkout .country_select{
+    font-size: 13px !important;
+}
+
+form.woocommerce-checkout .select2-drop{
+    font-size: 13px;
+}
+
+@media only screen and (max-width: 479px) {
+    
+    .woocommerce .shop_table.cart .product-price, .woocommerce .shop_table.cart .product-quantity{
+        display: none;
+        width: 0px;
+        height: 0px;
+        opacity:0;
+        visibility: collapse;
+    }
+    
+    /*.woocommerce .shop_table.cart{
+        width: 100% !important;
+        display: table;
+        border-collapse: collapse;
+    }*/
+    
+    .woocommerce .shop_table.cart .coupon input{
+        width:100% !important;
+        margin-bottom: 10px !important;
+    }
+    
+}
+
+@media only screen and (min-width: 768px) {
+    
+    .woocommerce .shop_table.cart .coupon{
+        width:50%;
+    }
+    
+}
+
+@media (max-width: 600px){
+    td.tickets_name {
+        font-size: 13px !important;
+    }
+}
+
+.instructor-view form.cart {
+    display: none;
+}
+
+#tribe-events-pg-template{
+    padding:0px !important;
+}

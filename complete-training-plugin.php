@@ -74,6 +74,7 @@ add_action( 'tgmpa_register', 'SWSCTP_register_required_plugins' ); //Register R
 add_action( 'admin_init', 'sws_admin_css' ); //Function to provide Bootstrap CSS to WP-admin
 add_action( 'admin_init', 'SWSCTP_tribe_functions'); //Function to Add Metabox to Tribe Events
 add_action( 'init', 'sws_change_role_name' ); //Change editor role name to "Manager"
+add_action( 'init', 'swsctp_inst_sign_decline' ); //Process Sign/Decline Form Submission
 add_action( 'after_setup_theme', 'sws_remove_admin_bar' ); //Remove admin bar to non-administrators
 add_action( 'save_post', 'save_tribe_events_data' ); //Save Tribe Events Additional Meta-Data
 add_action( 'admin_menu' , 'remove_page_author_field' );
@@ -81,7 +82,7 @@ add_action( 'plugins_loaded', 'swsctp_class_column_mod'); //Runs Jigsaw Column M
 add_action( 'plugins_loaded', 'include_tribe_reg_email'); //Ensures Tribe Events Registration email template override file has been placed in theme directory
 add_action( 'plugins_loaded', 'include_tribe_single_event'); //Ensure Tribe Events Single Event template override file has been placed in theme directory
 add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' ); //Enqueue additional styles and scripts as needed
-
+add_action( 'wp_enqueue_scripts', 'swsctp_modal_scripts'); //Enqueue additional styles and scripts for modal windows for instructor accept/decline form
 
 function wpdocs_theme_name_scripts() {
     wp_enqueue_style( 'swsctp-styles', plugins_url('/complete-training-plugin/css/styles.css'), '0.0.1');
@@ -97,7 +98,7 @@ remove_action( 'admin_notices', 'woothemes_updater_notice' );
 function sws_admin_css(){
     wp_enqueue_script('admin_js_bootstrap_hack', plugins_url('/complete-training-plugin/js/bootstrap-hack.js'), false, '1.0.0', false);
     wp_enqueue_script('admin_js_bootstrap', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js', false, '3.3.4', false);
-    
+    wp_enqueue_style('swsctp_admin_styles', plugins_url('/complete-training-plugin/css/admin-styles.css'), false, '1.0.0', false);
 }
 
 //Register Query Vars and Rewrite Tags

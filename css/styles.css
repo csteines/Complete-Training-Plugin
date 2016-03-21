@@ -93,3 +93,7 @@
 #inst-buttons{
     margin-top: 10px;
 }
+
+#AcceptanceForm .modal-footer #ack {
+    display: inline-table;
+}

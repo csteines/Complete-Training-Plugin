@@ -248,7 +248,7 @@ function SWSCTP_tribe_functions(){
             <div class="tab-content">
                 <div id="inst1" class="tab-pane fade in active">
                     <?php if($tribe_events_inst1_decline){ ?>
-                    <h5 class="red">Instructor 1 Declined</h5>
+                    <h6 class="red">Instructor 1 Declined</h6>
                     <h6>Decline Reason:</h6>
                     <div class="well well-sm">
                         <?php echo $tribe_events_inst1_decline_rsn; ?>
@@ -262,25 +262,25 @@ function SWSCTP_tribe_functions(){
                         else{ echo " "; }
                         ?>
                     </div>
-                    <h6>Signature Date:</h6>
+                    <?php } ?>
+                    <h6>Date:</h6>
                     <div class="well well-sm">
                         <?php 
                         if($tribe_events_inst1_sig_date){ echo $tribe_events_inst1_sig_date; }
                         else{ echo " "; }
                         ?>
                     </div>
-                    <h6>Signature IP Address:</h6>
+                    <h6>IP Address:</h6>
                     <div class="well well-sm">
                         <?php 
                         if($tribe_events_inst1_sig_ip){ echo $tribe_events_inst1_sig_ip; }
                         else{ echo " "; }
                         ?>
                     </div>
-                    <?php } ?>
                 </div>
                 <div id="inst2" class="tab-pane fade">
                     <?php if($tribe_events_inst2_decline){ ?>
-                    <h5 class="red">Instructor 2 Declined</h5>
+                    <h6 class="red">Instructor 2 Declined</h6>
                     <h6>Decline Reason:</h6>
                     <div class="well well-sm">
                         <?php echo $tribe_events_inst2_decline_rsn; ?>
@@ -294,25 +294,25 @@ function SWSCTP_tribe_functions(){
                         else{ echo " "; }
                         ?>
                     </div>
-                    <h6>Signature Date:</h6>
+                    <?php } ?>
+                    <h6>Date:</h6>
                     <div class="well well-sm">
                         <?php 
                         if($tribe_events_inst2_sig_date){ echo $tribe_events_inst2_sig_date; }
                         else{ echo " "; }
                         ?>
                     </div>
-                    <h6>Signature IP Address:</h6>
+                    <h6>IP Address:</h6>
                     <div class="well well-sm">
                         <?php 
                         if($tribe_events_inst2_sig_ip){ echo $tribe_events_inst2_sig_ip; }
                         else{ echo " "; }
                         ?>
                     </div>
-                    <?php } ?>
                 </div>
                 <div id="inst3" class="tab-pane fade">
                     <?php if($tribe_events_inst3_decline){ ?>
-                    <h5 class="red">Instructor 3 Declined</h5>
+                    <h6 class="red">Instructor 3 Declined</h6>
                     <h6>Decline Reason:</h6>
                     <div class="well well-sm">
                         <?php echo $tribe_events_inst3_decline_rsn; ?>
@@ -326,21 +326,21 @@ function SWSCTP_tribe_functions(){
                         else{ echo " "; }
                         ?>
                     </div>
-                    <h6>Signature Date:</h6>
+                    <?php } ?>
+                    <h6>Date:</h6>
                     <div class="well well-sm">
                         <?php 
                         if($tribe_events_inst3_sig_date){ echo $tribe_events_inst3_sig_date; }
                         else{ echo " "; }
                         ?>
                     </div>
-                    <h6>Signature IP Address:</h6>
+                    <h6>IP Address:</h6>
                     <div class="well well-sm">
                         <?php 
                         if($tribe_events_inst3_sig_ip){ echo $tribe_events_inst3_sig_ip; }
                         else{ echo " "; }
                         ?>
                     </div>
-                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -531,4 +531,156 @@ function include_tribe_single_event(){
     }
 }
 
+//Add action to wootickets after save
+//Adds functionality to force class registrations to be sold individually
+function swsctp_wootickets_after_save_ticket($ticket_id, $event_id){
+    update_post_meta( $ticket_id, '_sold_individually', 'yes' );
+}
+add_action('wootickets_after_save_ticket', 'swsctp_wootickets_after_save_ticket');
+
+
+/**
+ * Add scripts and styles for modals
+ * 
+ */
+function swsctp_modal_scripts(){
+    wp_register_script ( 'swsmodaljs' , plugins_url('/complete-training-plugin/js/modal-bootstrap.min.js') , array( 'jquery' ), NULL , false );
+    wp_register_script ( 'swsacceptancejs' , plugins_url( '/complete-training-plugin/js/sws-acceptance-form.js'), array( 'jquery' ), NULL , false );
+    wp_register_style ( 'modalcss' , plugins_url('/complete-training-plugin/css/modal-bootstrap.css'), '' , '', 'all' );
+
+    wp_enqueue_script( 'swsmodaljs' );
+    wp_enqueue_script( 'swsacceptancejs' );
+    wp_enqueue_style( 'modalcss' );
+}
+
+/**
+ * Adds Modals to Instructor View for Course Assignment Accept Form & Decline Form
+ * Adds AcceptanceForm modal and DeclineForm modal
+ * 
+ * @param $event_id 
+ */
+function swsctp_add_modals_fn($event_id){
+	$inst_view = get_query_var('inst_view');
+	
+	if($inst_view){     
+            $curuser = wp_get_current_user();
+        
+?>
+		<!-- Modal -->
+        <div id="AcceptanceForm" class="modal fade" tabindex="-1">
+	        <div class="modal-dialog">
+		        <div class="modal-content">
+			        <div class="modal-header" style="height:40px;">
+			        	<h4 class="modal-title">Accept and Sign</h4>
+			        </div><!-- /.modal-header -->
+			        <div class="modal-body">
+			        	<div class="contract" style="height:100%; overflow-y:scroll;">
+                                            <!-- Cont Shortcode -->
+                                            <?php do_shortcode('[contractor_agreement]');  ?>
+		        		</div><!-- /.contract -->
+			        </div><!-- /.modal-body -->
+		        	<div class="modal-footer" style="height:206px;">
+		        		<form id="edit_post_sign" name="edit_post_sign" method="post" action="" enctype="multipart/form-data">
+			        		<div id="ack"><input type="checkbox" name="sws_ack" id="sws_chk" value="acknowledged" required><label for='sws_chk'><?php echo _e('I acknowledge I have read and understand the above contract.', 'swsctp'); ?></label></div>
+			        		<div id="sig"><?php echo _e('Typing your name below serves as your electronic signature, accepting the class assignment and agreeing to the above contract.', 'swsctp'); ?><br>
+					        	<input type="text" id="signature" name="signature" width="100%" placeholder="Enter Your Name" required>
+				        	</div><!-- /.sig -->
+					        <input class="tribe-events-button tribe-no-param btn btn-primary" id="submit" name="submit" type="submit" value="Sign">
+					        <input class="tribe-events-button tribe-no-param btn btn-default" id="cancel" name="cancel" type="submit" data-dismiss="modal" value="Cancel">
+					        
+				        	<input type="hidden" name="postid" value="<?php echo get_the_ID(); ?>" /><!-- DONT REMOVE OR CHANGE -->
+                                                <input type='hidden' name='swsctp-source' value='instructor-event' /><!-- DONT REMOVE OR CHANGE -->
+                                                <input type='hidden' name='instructor-id' value='<?php echo $curuser->ID; ?>' /><!-- DONT REMOVE OR CHANGE -->
+                                                <input type="hidden" name="action" value="edit_post_sign" /><!-- DONT REMOVE OR CHANGE -->
+						</form><!-- /.edit_post_sign -->
+			        </div><!-- /.modal-footer -->
+		        </div><!-- /.modal-content -->
+	        </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+                        
+		<!-- Modal 2 -->
+        <div id="DeclineForm" class="modal fade" tabindex="-1">
+	        <div class="modal-dialog">
+		        <div class="modal-content">
+		        	<div class="modal-header" style="height:25px;">
+		        		<h4 class="modal-title">Decline Assignment</h4>
+		        	</div><!-- /.modal-header -->
+		        	<form id="edit_post_decline" name="edit_post_decline" method="post" action="" enctype="multipart/form-data">
+			        	<div class="modal-body">
+			        		<div class="decline-statement"><?php echo _e('Are you sure you wish to decline the course assignment?', 'swsctp'); ?></div>
+			        		<textarea id="decline_reason" name="decline_reason" rows="4" placeholder="<?php echo _e('Please provide your reason for declining the class', 'swsctp'); ?>" style="width:95%; margin:auto; margin-bottom:10px;" required></textarea>
+		        		</div><!-- /.modal-body -->
+			        	<div class="modal-footer">
+			        		<input class="tribe-events-button tribe-no-param btn btn-primary" id="submit" name="submit" type="submit" value="Decline">
+					        <input class="tribe-events-button tribe-no-param btn btn-default" id="cancel" name="cancel" type="submit" data-dismiss="modal" value="Cancel">
+					        
+				        	<input type="hidden" name="postid" value="<?php echo get_the_ID(); ?>" /><!-- DONT REMOVE OR CHANGE -->
+                                                <input type='hidden' name='swsctp-source' value='instructor-event' /><!-- DONT REMOVE OR CHANGE -->
+                                                <input type='hidden' name='instructor-id' value='<?php echo $curuser->ID; ?>' /><!-- DONT REMOVE OR CHANGE -->
+                                                <input type="hidden" name="action" value="edit_post_decline" /><!-- DONT REMOVE OR CHANGE -->
+			        	</div><!-- /.modal-footer -->
+		        	</form>
+		        </div><!-- /.modal-content -->
+	        </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->	
+		
+	<?php } //endif $inst_view
+}
+add_action('swsctp_add_instructor_modals', 'swsctp_add_modals_fn');
+
+
+function swsctp_inst_sign_decline(){
+    //If POST submitted from Single Event Instructor View form
+    if(isset($_POST['swsctp-source']) && $_POST['swsctp-source'] == 'instructor-event'){
+        $curuser = wp_get_current_user();
+        $post_id = $_POST['postid'];
+        
+        //Get Saved Instructors
+        $tribe_events_inst1 = get_post_meta($post_id, '_tribe_events_inst1', TRUE);
+        $tribe_events_inst2 = get_post_meta($post_id, '_tribe_events_inst2', TRUE);
+        $tribe_events_inst3 = get_post_meta($post_id, '_tribe_events_inst3', TRUE);
+        
+        //Determine which instructor submitted the form
+        if($_POST['instructor-id'] == $tribe_events_inst1){ $inst = 1; }
+        else if($_POST['instructor-id'] == $tribe_events_inst2){ $inst = 2; }
+        else if($_POST['instructor-id'] == $tribe_events_inst3){ $inst = 3; }
+        
+        //If form signature
+        if($_POST['action'] == 'edit_post_sign' && $_POST['sws_ack'] == true && $_POST['signature'] !== ""){
+           
+            //Update post meta
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_stat', "accepted");
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_sig', $_POST['signature']);
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_sig_date', date('m/d/Y H:i:s T'));
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_sig_ip', $_SERVER['REMOTE_ADDR']);
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_decline', "");
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_decline_rsn', "");
+            
+            //Execute Notification Email Function
+            //swsctp_notification_email();
+            
+            //Audit Trail Addition
+            //swsctp_audit_trail();
+            
+        }
+        //If form decline
+        else if($_POST['action'] == 'edit_post_decline'){
+            
+            //Update post meta
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_stat', "declined");
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_sig', "");
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_sig_date', date('m/d/Y H:i:s T'));
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_sig_ip', $_SERVER['REMOTE_ADDR']);
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_decline', "true");
+            update_post_meta($post_id, '_tribe_events_inst'.$inst.'_decline_rsn', $_POST['decline_reason']);
+            
+            //Execute Notification Email Function
+            //swsctp_notification_email();
+            
+            //Audit Trail Addition
+            //swsctp_audit_trail();
+            
+        }
+    }
+}
 ?>
