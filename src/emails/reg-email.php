@@ -233,7 +233,8 @@
                         
                         $swsctp_options = get_option( 'swsctp_options' );
                         $header_img[0] = $swsctp_options['logo'];
-                        $header_img[1] = 580;
+                        list($width, $height) = getimagesize( $header_img[0]);
+                        $header_img[1] = $width;
 
 			$count = 0;
 			$break = '';
@@ -311,7 +312,7 @@
 											<table border="0" cellpadding="0" cellspacing="0" width="100%">
 												<tr>
 													<td class="ticket-image" valign="top" align="left" width="100%" style="padding-bottom:15px !important;">
-														<img src="<?php echo esc_attr( $header_img[0] ); ?>" width="<?php echo esc_attr( $header_width ); ?>" alt="<?php echo esc_attr( $event->post_title ); ?>" style="border:0; outline:none; height:auto; max-width:100%; display:block;" />
+														<img src="<?php echo esc_attr( $header_img[0] ); ?>" width="<?php echo esc_attr( $header_width ); ?>" alt="<?php echo esc_attr( $event->post_title ); ?>" style="border:0; outline:none; height:auto; max-width:100%; display:block; margin: auto;" />
 													</td>
 												</tr>
 											</table>
@@ -342,11 +343,11 @@
 										<table class="ticket-details" border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
 											<tr>
 												<td class="ticket-details" valign="top" align="left" width="100" style="padding: 0; width:100px; margin:0 !important;">
-													<h6 style="color:#909090 !important; margin:0 0 10px 0; font-family: 'Helvetica Neue', Helvetica, sans-serif; text-transform:uppercase; font-size:13px; font-weight:700 !important;"><?php esc_html_e( 'Ticket #', 'event-tickets' ); ?></h6>
+													<h6 style="color:#909090 !important; margin:0 0 10px 0; font-family: 'Helvetica Neue', Helvetica, sans-serif; text-transform:uppercase; font-size:13px; font-weight:700 !important;"><?php esc_html_e( 'Registration #', 'event-tickets' ); ?></h6>
 													<span style="color:#0a0a0e !important; font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size:15px;"><?php echo $ticket['ticket_id']; ?></span>
 												</td>
 												<td class="ticket-details" valign="top" align="left" width="120" style="padding: 0; width:120px; margin:0 !important;">
-													<h6 style="color:#909090 !important; margin:0 0 10px 0; font-family: 'Helvetica Neue', Helvetica, sans-serif; text-transform:uppercase; font-size:13px; font-weight:700 !important;"><?php esc_html_e( 'Ticket Type', 'event-tickets' ); ?></h6>
+													<h6 style="color:#909090 !important; margin:0 0 10px 0; font-family: 'Helvetica Neue', Helvetica, sans-serif; text-transform:uppercase; font-size:13px; font-weight:700 !important;"><?php esc_html_e( 'Registration Type', 'event-tickets' ); ?></h6>
 													<span style="color:#0a0a0e !important; font-family: 'Helvetica Neue', Helvetica, sans-serif; font-size:15px;"><?php echo $ticket['ticket_name']; ?></span>
 												</td>
 												<td class="ticket-details" valign="top" align="left" width="120" style="padding: 0 !important; width:120px; margin:0 !important;">

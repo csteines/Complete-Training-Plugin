@@ -10,9 +10,9 @@ function SWSCTP_register_required_plugins(){
         array(
             'name'               => 'The Events Calendar', // The plugin name.
             'slug'               => 'the-events-calendar', // The plugin slug (typically the folder name).
-            'source'             => SWSCTP_PLUGIN_DIR . '/plugin-source/the-events-calendar.4.0.3.zip', // The plugin source.
+            'source'             => SWSCTP_PLUGIN_DIR . '/plugin-source/the-events-calendar.4.1.1.1.zip', // The plugin source.
             'required'           => true, // If false, the plugin is only 'recommended' instead of required.
-            'version'            => '4.0.3', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+            'version'            => '4.1.1.1', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
             'force_activation'   => true, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
             'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
             'external_url'       => '', // If set, overrides default API URL and points to an external URL.
@@ -22,9 +22,9 @@ function SWSCTP_register_required_plugins(){
         array(
             'name'               => 'WooCommerce', // The plugin name.
             'slug'               => 'woocommerce', // The plugin slug (typically the folder name).
-            'source'             => SWSCTP_PLUGIN_DIR . '/plugin-source/woocommerce.2.4.12.zip', // The plugin source.
+            'source'             => SWSCTP_PLUGIN_DIR . '/plugin-source/woocommerce.2.5.5.zip', // The plugin source.
             'required'           => true, // If false, the plugin is only 'recommended' instead of required.
-            'version'            => '2.4.12', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+            'version'            => '2.5.5', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
             'force_activation'   => true, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
             'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
             'external_url'       => '', // If set, overrides default API URL and points to an external URL.
@@ -34,9 +34,9 @@ function SWSCTP_register_required_plugins(){
         array(
             'name'               => 'Event Tickets Plus', // The plugin name.
             'slug'               => 'event-tickets-plus', // The plugin slug (typically the folder name).
-            'source'             => SWSCTP_PLUGIN_DIR . '/plugin-source/event-tickets-plus.4.0.3.zip', // The plugin source.
+            'source'             => SWSCTP_PLUGIN_DIR . '/plugin-source/event-tickets-plus.4.1.1.zip', // The plugin source.
             'required'           => true, // If false, the plugin is only 'recommended' instead of required.
-            'version'            => '4.0.3', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+            'version'            => '4.1.1', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
             'force_activation'   => true, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
             'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
             'external_url'       => '', // If set, overrides default API URL and points to an external URL.
@@ -46,9 +46,9 @@ function SWSCTP_register_required_plugins(){
         array(
             'name'               => 'Event Tickets', // The plugin name.
             'slug'               => 'event-tickets', // The plugin slug (typically the folder name).
-            'source'             => SWSCTP_PLUGIN_DIR . '/plugin-source/event-tickets.4.0.3.zip', // The plugin source.
+            'source'             => SWSCTP_PLUGIN_DIR . '/plugin-source/event-tickets.4.1.1.zip', // The plugin source.
             'required'           => true, // If false, the plugin is only 'recommended' instead of required.
-            'version'            => '4.0.3', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+            'version'            => '4.1.1', // E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
             'force_activation'   => true, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
             'force_deactivation' => false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins.
             'external_url'       => '', // If set, overrides default API URL and points to an external URL.

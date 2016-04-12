@@ -54,6 +54,8 @@ else {
     $tribe_events_inst_notes = get_post_meta($event_id, '_tribe_events_inst_notes', TRUE);
     $tribe_events_equip_needed = get_post_meta($event_id, '_tribe_events_equip_needed', TRUE);
     $tribe_events_status = get_post_meta($event_id, '_tribe_events_status', TRUE);
+    
+    $site_url = site_url();
 
     //If public view
     if(!$inst_view){    ?>
@@ -65,7 +67,7 @@ else {
     else { ?>
         <div id="tribe-events-content " class="instructor-view tribe-events-single vevent hentry">
             <p>
-                <a href="<?php echo esc_url("/instructor-class-list/");?>">&laquo; My Assigned Classes</a>
+                <a href="<?php echo esc_url("$site_url/instructor-class-list/");?>">&laquo; My Assigned Classes</a>
             </p>
     <?php } ?>
     <!-- Notices -->
@@ -209,7 +211,9 @@ else {
 			<?php do_action( 'tribe_events_single_event_after_the_meta' ) ?>
 		</div> <!-- #post-x -->
 		<?php if ( get_post_type() == TribeEvents::POSTTYPE && tribe_get_option( 'showComments', false ) ) comments_template() ?>
-	<?php endwhile; ?>
+	<?php endwhile; 
+        
+        if(!$inst_view){ ?>
 
 	<!-- Event footer -->
 	<div id="tribe-events-footer">
@@ -223,6 +227,7 @@ else {
 		<!-- .tribe-events-sub-nav -->
 	</div>
 	<!-- #tribe-events-footer -->
+        <?php } ?>
 
 </div><!-- #tribe-events-content -->
 
