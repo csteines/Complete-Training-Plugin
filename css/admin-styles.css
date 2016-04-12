@@ -1,0 +1,11 @@
+.red{
+    color:red !important;
+}
+
+.tribe-settings-form-wrap .form-table{
+    margin-left: 15px;
+}
+
+.tribe-tickets-image-upload, .tribe-tickets-image-preview{
+    display: none;
+}

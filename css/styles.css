@@ -36,14 +36,94 @@
     display: none;
 }
 
-.tribe_inst.pending{
+.tribe_inst.pending, .class_list_table .pending{
     color: darkorange;
 }
 
-.tribe_inst.accepted{
+.tribe_inst.accepted, .class_list_table .accepted{
     color: darkgreen;
 }
 
-.tribe_inst.declined{
+.tribe_inst.declined, .class_list_table .declined{
     color: crimson;
 }
+
+.swsctp-options-radio{
+    margin:5px 0px 5px 0px;
+}
+
+.swsctp-options-inline-number input[type="number"]{
+    width: 50px;
+    text-align: right;
+}
+
+#tribe-events-inst-meta-header, #tribe-events-inst-meta-bottom {
+    width: 100% !important;
+}
+
+#tribe-events-inst-meta-left, #tribe-events-inst-meta-right {
+    width: 50% !important;
+}
+
+#tribe-events-inst-meta-bottom dl{
+    border-top: 1px lightgray solid;
+    padding-top: 25px;
+}
+
+.instructor-view .tribe_events form{
+    display:none;
+}
+
+.tribe-venue {
+    margin-bottom: 0px;
+}
+
+#inst-buttons{
+    margin-top: 10px;
+}
+
+#AcceptanceForm .modal-footer #ack {
+    display: inline-table;
+}
+
+ .list-pending, .list-scheduled{
+     background-color: #f5f5f5;
+ }
+ 
+ .list-cancelled, .list-cancelled a{
+     background-color:#ff5353;
+     color:#ffffff !important;
+ }
+ 
+ .list-cancelled a:hover{
+     color:#D5D5D5 !important;
+ }
+ 
+ .list-accepted, .list-processed{
+     background-color:#76c176;
+ }
+ 
+ .list-declined{
+     background-color:#f5b47e;
+ }
+ 
+ .list-completed{
+     background-color:#ffffff;
+ }
+ 
+ .prev-posts-link {
+    width: 50%;
+    text-align: left;
+}
+
+.next-posts-link {
+    width: 50%;
+    text-align: right;
+}
+
+.prev-next-posts{
+    display: inline-flex;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
